@@ -3,14 +3,46 @@
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
      <title>Sentiment Analysis</title>
-     
 </head>
 <body>
      <h1>Sentiment Analysis</h1>
      <form action="/save" method="POST">
-        <textarea name="text" placeholder="Enter text for sentiment analysis" required></textarea>
+        <textarea name="textarea" placeholder="Enter text for sentiment analysis" required></textarea>
         <br>
         <button type="submit">Analyze Sentiment</button>
+     </form>
+
+     <canvas id="pieChart" style="height: 100px; width: 100%;"></canvas>
+
+     <script>
+    // Fetch summary data from the server
+     fetch('/feed_summary')
+        .then(response => response.json())
+        .then(data => {
+            var ctx = document.getElementById('pieChart').getContext('2d');
+            var pieChart = new Chart(ctx, {
+               type: 'pie',
+               data: {
+                    labels: data.labels,
+                    datasets: [{
+                        data: data.values,
+                        backgroundColor: ['#FF5733', '#33FF57', '#5733FF'], // Add more colors if needed
+                    }]
+                }
+            });
+        });
+     </script>
+     
+     <h1>Feed</h1>
+     <ul>
+        {% for comment in feed_comments %}
+            <li>
+               <p>{{ comment.id }} {{ comment.content }} {{ comment.predict }} {{ comment.time}}</p>
+            </li>
+        {% endfor %}
+     </ul>
+
 </body>
 </html>
