@@ -8,11 +8,11 @@ import scipy.sparse as sps
 from textprocess import text_process
 
 # Load model
-sentiment_model = open('LRmodeld5.pkl', 'rb')
+sentiment_model = open('LRmodel15000.joblib', 'rb')
 clf = joblib.load(sentiment_model)
 
 # Dictionarie of words
-with open('dictcvec.json', encoding='utf8') as j:
+with open('dictcvec15000.json', encoding='utf8') as j:
     word = j.read()
 dictword = json.loads(word)
 
